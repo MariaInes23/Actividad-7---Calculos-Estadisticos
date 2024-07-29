@@ -169,33 +169,42 @@ using System;
 
     static void Moda(List<double> numeros)
     {
-        Dictionary<int, int> frecuencia = new Dictionary<int, int>();
+    List<double> numerosUnicos = new List<double>();
+    List<double> frecuencias = new List<double>();
 
-        foreach (int repetido in numeros)
+    foreach (var numero in numeros)
+    {
+        bool encontrado = false;
+        for (int i = 0; i < numerosUnicos.Count; i++)
         {
-            try
+            if (numerosUnicos[i] == numero)
             {
-                frecuencia[repetido]++;
-            }
-            catch (KeyNotFoundException)
-            {
-                frecuencia[repetido] = 1;
+                frecuencias[i]++;
+                encontrado = true;
+                break;
             }
         }
 
-        double moda = numeros[0];
-        int contador = 0;
-
-        foreach (var encontrar in frecuencia)
+        if (!encontrado)
         {
-            if (encontrar.Value > contador)
-            {
-                contador = encontrar.Value;
-                moda = encontrar.Key;
-            }
+            numerosUnicos.Add(numero);
+            frecuencias.Add(1);
         }
+    }
 
-        Console.WriteLine($"La moda es: {moda}");
+    double maximaFrecuencia = 0;
+    double moda = numerosUnicos[0];
+
+    for (int i = 0; i < frecuencias.Count; i++)
+    {
+        if (frecuencias[i] > maximaFrecuencia)
+        {
+            maximaFrecuencia = frecuencias[i];
+            moda = numerosUnicos[i];
+        }
+    }
+
+    Console.WriteLine($"La moda es: {moda}");
     }
 
     static void DesviacionEstandar(List<double> numeros)
